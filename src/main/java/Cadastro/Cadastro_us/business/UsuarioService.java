@@ -3,33 +3,69 @@ package Cadastro.Cadastro_us.business;
 import Cadastro.Cadastro_us.infrastructure.entitys.Usuario;
 import Cadastro.Cadastro_us.infrastructure.repository.UsuarioRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class UsuarioService {
+
     private final UsuarioRepository usuarioRepository;
 
     public UsuarioService(UsuarioRepository usuarioRepository) {
         this.usuarioRepository = usuarioRepository;
     }
 
-    public void salvarUsuario(Usuario usuario) {
-        usuarioRepository.saveAndFlush(usuario);
+    @Transactional
+    public Usuario salvarUsuario(Usuario usuario) {
+        return usuarioRepository.save(usuario);
     }
 
-    public void buscarUsuarioPorId(Integer id) {
-        usuarioRepository.findById(id);
+    @Transactional(readOnly = true)
+    public Usuario buscarUsuarioPorId(Integer id) {
+        return usuarioRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado!"));
     }
 
+    @Transactional(readOnly = true)
     public Usuario buscarUsuarioPorEmail(String email) {
-        return usuarioRepository.findByEmail(email).orElseThrow(
-            () -> new RuntimeException("Usuário não encontrado!"
-        ));
+        return usuarioRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado!"));
     }
 
-
-
+    @Transactional
     public void deletarUsuarioPorId(Integer id) {
+        if (!usuarioRepository.existsById(id)) {
+            throw new RuntimeException("Usuário não encontrado!");
+        }
         usuarioRepository.deleteById(id);
     }
 
+    @Transactional
+    public Usuario atualizarUsuarioPorEmail(String email, Usuario usuario) {
+        Usuario usuarioEntity = buscarUsuarioPorEmail(email);
+
+        if (usuario.getEmail() != null && !usuario.getEmail().isBlank()) {
+            usuarioEntity.setEmail(usuario.getEmail());
+        }
+
+        if (usuario.getNome() != null && !usuario.getNome().isBlank()) {
+            usuarioEntity.setNome(usuario.getNome());
+        }
+
+        return usuarioRepository.save(usuarioEntity);
+    }
+
+    @Transactional
+    public Usuario atualizarUsuarioPorId(Integer id, Usuario usuario) {
+        Usuario usuarioEntity = buscarUsuarioPorId(id);
+
+        if (usuario.getEmail() != null && !usuario.getEmail().isBlank()) {
+            usuarioEntity.setEmail(usuario.getEmail());
+        }
+
+        if (usuario.getNome() != null && !usuario.getNome().isBlank()) {
+            usuarioEntity.setNome(usuario.getNome());
+        }
+
+        return usuarioRepository.save(usuarioEntity);
+    }
 }
