@@ -18,6 +18,12 @@ public class Produto {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @Column(name = "codigo_barras", unique = true, nullable = false, length = 150)
+    private Integer codigoBarras;
+
+    @Column(name = "numeroNotaFiscal", unique = true, nullable = false, length = 150)
+    private Integer numeroNotaFiscal;
+
     @Column(name = "categoria", unique = true, nullable = false, length = 150)
     private String categoria;
 
@@ -32,6 +38,15 @@ public class Produto {
 
     @Column(name = "dataValidade", nullable = false, length = 50)
     private String dataValidade;
+
+    @Column(name = "fornecedor", nullable = false, length = 150)
+    private String fornecedor;
+
+    @Column(name = "descricao", nullable = false, length = 500)
+    private String descricao;
+
+    @Column(name = "isActive", nullable = false)
+    private Boolean isActive;
 
     @Column(name = "criado_em", updatable = false)
     private LocalDateTime criadoEm;

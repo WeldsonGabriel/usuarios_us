@@ -18,25 +18,43 @@ public class UsuarioService {
     public Usuario salvarUsuario(Usuario usuario) {
         return usuarioRepository.save(usuario);
     }
-
+    // READ BY ID
     @Transactional(readOnly = true)
     public Usuario buscarUsuarioPorId(Integer id) {
         return usuarioRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado!"));
     }
-
+    // READ BY EMAIL
     @Transactional(readOnly = true)
     public Usuario buscarUsuarioPorEmail(String email) {
         return usuarioRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado!"));
     }
-
+    // READ BY NOME
+    @Transactional(readOnly = true)
+    public Usuario buscarUsuarioPorNome(String nome) {
+        return usuarioRepository.findByNome(nome)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado!"));
+    }
+    // READ BY ISACTIVE
+    @Transactional(readOnly = true)
+    public Usuario buscarUsuarioPorIsActive(Boolean isActive) {
+        return usuarioRepository.findByIsActive(isActive)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado!"));
+    }
     @Transactional
     public void deletarUsuarioPorId(Integer id) {
         if (!usuarioRepository.existsById(id)) {
             throw new RuntimeException("Usuário não encontrado!");
         }
         usuarioRepository.deleteById(id);
+    }
+
+    @Transactional
+    public void delecaoLogicaUsuarioPorId(Integer id) {
+        Usuario usuario = buscarUsuarioPorId(id);
+        usuario.setIsActive(false);
+        usuarioRepository.save(usuario);
     }
 
     @Transactional

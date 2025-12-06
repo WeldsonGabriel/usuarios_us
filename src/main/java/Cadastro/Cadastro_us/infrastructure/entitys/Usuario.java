@@ -24,6 +24,9 @@ public class Usuario {
     @Column(name = "nome", nullable = false, length = 150)
     private String nome;
 
+    @Column(name = "isActive", nullable = false)
+    private Boolean isActive;
+
     @Column(name = "criado_em", updatable = false)
     private LocalDateTime criadoEm;
 

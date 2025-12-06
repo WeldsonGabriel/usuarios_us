@@ -11,5 +11,6 @@ public class UsuarioDto {
 
     private String email;
     private String nome;
+    private Boolean isActive;
 
 }
