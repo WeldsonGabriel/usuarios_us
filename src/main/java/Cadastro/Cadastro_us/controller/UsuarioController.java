@@ -77,6 +77,7 @@ public class UsuarioController {
                 .build();
 
         return ResponseEntity.ok(usuarioService.atualizarUsuarioPorEmail(email, usuario));
+
     }
 
     // DELETE LOGICO

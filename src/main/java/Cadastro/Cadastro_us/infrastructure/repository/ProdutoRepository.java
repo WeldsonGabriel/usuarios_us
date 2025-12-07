@@ -7,12 +7,13 @@ import java.util.Optional;
 
 public interface ProdutoRepository extends JpaRepository<Produto, Integer> {
 
-    Optional<Produto> findByPreco(String dataValidade);
+    Optional<Produto> findByDataValidade(String dataValidade);
     Optional<Produto> findByCategoria(String categoria);
     Optional<Produto> findByNome(String nome);
     Optional<Produto> findByPreco(double preco);
     Optional<Produto> findByFornecedor(String fornecedor);
     Optional<Produto> findByDescricao(String descricao);
-    Optional<Produto> findByCodigoDeBarras(Integer codigoBarras);
+    Optional<Produto> findByCodigoBarras(Integer codigoBarras);
+
 
 }

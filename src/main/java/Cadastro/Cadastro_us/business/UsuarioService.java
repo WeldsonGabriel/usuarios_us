@@ -16,6 +16,8 @@ public class UsuarioService {
 
     @Transactional
     public Usuario salvarUsuario(Usuario usuario) {
+        // incluir o isActive como true ao criar um novo usuário
+        usuario.setIsActive(true);
         return usuarioRepository.save(usuario);
     }
     // READ BY ID
