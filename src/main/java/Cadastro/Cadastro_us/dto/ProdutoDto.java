@@ -2,6 +2,10 @@ package Cadastro.Cadastro_us.dto;
 
 import lombok.*;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -9,14 +13,15 @@ import lombok.*;
 @Builder
 public class ProdutoDto {
 
-    private Integer codigoBarras;
-    private Integer numeroNotaFiscal;
+    private String codigoBarras;
+    private String numeroNotaFiscal;
     private String categoria;
     private String nome;
     private Long quantidade;
     private Double preco;
-    private String dataValidade;
+    private LocalDate dataValidade;
     private String fornecedor;
     private String descricao;
+    private String unidadeMedida;
     private Boolean isActive;
 }

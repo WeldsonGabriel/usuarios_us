@@ -6,6 +6,8 @@ import Cadastro.Cadastro_us.infrastructure.repository.ProdutoRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+
 @Service
 public class ProdutoService {
     private final ProdutoRepository produtoRepository;
@@ -16,9 +18,11 @@ public class ProdutoService {
 
     @Transactional
     public Produto salvarProduto(Produto produto) {
+        produto.setIsActive(true);
         return produtoRepository.save(produto);
     }
 
+    // Leituras
     @Transactional(readOnly = true)
     public Produto buscarProdutoPorId(Integer id) {
         return produtoRepository.findById(id)
@@ -31,6 +35,67 @@ public class ProdutoService {
                 .orElseThrow(() -> new RuntimeException("Produto não encontrado!"));
     }
 
+    @Transactional(readOnly = true)
+    public Produto buscarProdutoPorNome(String nome) {
+        return produtoRepository.findByNome(nome)
+                .orElseThrow(() -> new RuntimeException("Produto não encontrado!"));
+    }
+
+    @Transactional(readOnly = true)
+    public Produto buscarProdutoPorDataValidade(LocalDate dataValidade) {
+        return produtoRepository.findByDataValidade(dataValidade)
+                .orElseThrow(() -> new RuntimeException("Produto não encontrado!"));
+    }
+
+    @Transactional(readOnly = true)
+    public Produto buscarProdutoPorPreco(double preco) {
+        return produtoRepository.findByPreco(preco)
+                .orElseThrow(() -> new RuntimeException("Produto não encontrado!"));
+    }
+
+    @Transactional(readOnly = true)
+    public Produto buscarProdutoPorFornecedor(String fornecedor) {
+        return produtoRepository.findByFornecedor(fornecedor)
+                .orElseThrow(() -> new RuntimeException("Produto não encontrado!"));
+    }
+
+    @Transactional(readOnly = true)
+    public Produto buscarProdutoPorDescricao(String descricao) {
+        return produtoRepository.findByDescricao(descricao)
+                .orElseThrow(() -> new RuntimeException("Produto não encontrado!"));
+    }
+
+    @Transactional(readOnly = true)
+    public Produto buscarProdutoPorCodigoBarras(String codigoBarras) {
+        return produtoRepository.findByCodigoBarras(codigoBarras)
+                .orElseThrow(() -> new RuntimeException("Produto não encontrado!"));
+    }
+
+    @Transactional(readOnly = true)
+    public Produto buscarProdutoPorNumeroNotaFiscal(String numeroNotaFiscal) {
+        return produtoRepository.findByNumeroNotaFiscal(numeroNotaFiscal)
+                .orElseThrow(() -> new RuntimeException("Produto não encontrado!"));
+    }
+
+    @Transactional(readOnly = true)
+    public Produto buscarProdutoPorIsActive(Boolean isActive) {
+        return produtoRepository.findByIsActive(isActive)
+                .orElseThrow(() -> new RuntimeException("Produto não encontrado!"));
+    }
+
+    @Transactional(readOnly = true)
+    public Produto buscarProdutoPorQuantidade(Long quantidade) {
+        return produtoRepository.findByQuantidade(quantidade)
+                .orElseThrow(() -> new RuntimeException("Produto não encontrado!"));
+    }
+
+    @Transactional(readOnly = true)
+    public Produto buscarProdutoPorUnidadeMedida(String unidadeMedida) {
+        return produtoRepository.findByUnidadeMedida(unidadeMedida)
+                .orElseThrow(() -> new RuntimeException("Produto não encontrado!"));
+    }
+
+    // Deleções
     @Transactional
     public void deletarProdutoPorId(Integer id) {
         if (!produtoRepository.existsById(id)) {
@@ -40,55 +105,55 @@ public class ProdutoService {
     }
 
     @Transactional
-    public Produto atualizarProdutoPorCategoria(String categoria, Produto produto) {
-        Produto produtoEntity = buscarProdutoPorCategoria(categoria);
-
-        if (produto.getCategoria() != null && !produto.getCategoria().isBlank()) {
-            produtoEntity.setCategoria(produto.getCategoria());
-        }
-
-        if (produto.getNome() != null && !produto.getNome().isBlank()) {
-            produtoEntity.setNome(produto.getNome());
-        }
-
-        if (produto.getQuantidade() != null) {
-            produtoEntity.setQuantidade(produto.getQuantidade());
-        }
-
-        if (produto.getPreco() != 0) {
-            produtoEntity.setPreco(produto.getPreco());
-        }
-
-        if (produto.getDataValidade() != null && !produto.getDataValidade().isBlank()) {
-            produtoEntity.setDataValidade(produto.getDataValidade());
-        }
-
-        return produtoRepository.save(produtoEntity);
+    public void deletarProdutoPorCategoria(String categoria) {
+        Produto produto = buscarProdutoPorCategoria(categoria);
+        produtoRepository.delete(produto);
     }
+
     @Transactional
-    public Produto atualizarProdutoPorId(Integer id, Produto produto) {
-        Produto produtoEntity = buscarProdutoPorId(id);
+    public void deletarProdutoPorNome(String nome) {
+        Produto produto = buscarProdutoPorNome(nome);
+        produtoRepository.delete(produto);
+    }
 
-        if (produto.getCategoria() != null && !produto.getCategoria().isBlank()) {
-            produtoEntity.setCategoria(produto.getCategoria());
-        }
+    //deleção lógica
+    @Transactional
+    public Produto desativarProdutoPorId(Integer id) {
+        Produto produto = buscarProdutoPorId(id);
+        produto.setIsActive(false);
+        return produtoRepository.save(produto);
+    }
 
-        if (produto.getNome() != null && !produto.getNome().isBlank()) {
-            produtoEntity.setNome(produto.getNome());
-        }
+    // Atualizações parciais
 
-        if (produto.getQuantidade() != null) {
-            produtoEntity.setQuantidade(produto.getQuantidade());
-        }
+    @Transactional
+    public Produto atualizarPrecoProduto(Integer id, Double novoPreco) {
+        Produto produto = buscarProdutoPorId(id);
+        produto.setPreco(novoPreco);
+        return produtoRepository.save(produto);
+    }
 
-        if (produto.getPreco() != 0) {
-            produtoEntity.setPreco(produto.getPreco());
-        }
+    @Transactional
+    public Produto atualizarQuantidadeProduto(Integer id, Long novaQuantidade) {
+        Produto produto = buscarProdutoPorId(id);
+        produto.setQuantidade(novaQuantidade);
+        return produtoRepository.save(produto);
+    }
 
-        if (produto.getDataValidade() != null && !produto.getDataValidade().isBlank()) {
-            produtoEntity.setDataValidade(produto.getDataValidade());
-        }
-
-        return produtoRepository.save(produtoEntity);
+    // Atualizações completas
+    @Transactional
+    public Produto atualizarProdutoCompleto(Integer id, Produto produtoAtualizado) {
+        Produto produtoExistente = buscarProdutoPorId(id);
+        produtoExistente.setCodigoBarras(produtoAtualizado.getCodigoBarras());
+        produtoExistente.setNumeroNotaFiscal(produtoAtualizado.getNumeroNotaFiscal());
+        produtoExistente.setCategoria(produtoAtualizado.getCategoria());
+        produtoExistente.setNome(produtoAtualizado.getNome());
+        produtoExistente.setQuantidade(produtoAtualizado.getQuantidade());
+        produtoExistente.setPreco(produtoAtualizado.getPreco());
+        produtoExistente.setDataValidade(produtoAtualizado.getDataValidade());
+        produtoExistente.setFornecedor(produtoAtualizado.getFornecedor());
+        produtoExistente.setDescricao(produtoAtualizado.getDescricao());
+        produtoExistente.setUnidadeMedida(produtoAtualizado.getUnidadeMedida());
+        return produtoRepository.save(produtoExistente);
     }
 }

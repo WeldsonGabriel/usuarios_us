@@ -16,7 +16,6 @@ public class UsuarioService {
 
     @Transactional
     public Usuario salvarUsuario(Usuario usuario) {
-        // incluir o isActive como true ao criar um novo usuário
         usuario.setIsActive(true);
         return usuarioRepository.save(usuario);
     }
@@ -71,6 +70,7 @@ public class UsuarioService {
             usuarioEntity.setNome(usuario.getNome());
         }
 
+        usuarioEntity.setIsActive(true);
         return usuarioRepository.save(usuarioEntity);
     }
 
@@ -86,6 +86,7 @@ public class UsuarioService {
             usuarioEntity.setNome(usuario.getNome());
         }
 
+        usuarioEntity.setIsActive(true);
         return usuarioRepository.save(usuarioEntity);
     }
 }

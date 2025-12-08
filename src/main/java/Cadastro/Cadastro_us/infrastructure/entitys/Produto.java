@@ -1,9 +1,11 @@
 package Cadastro.Cadastro_us.infrastructure.entitys;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -12,6 +14,7 @@ import java.time.LocalDateTime;
 @Builder
 @Table(name = "produtos")
 @Entity
+
 public class Produto {
 
     @Id
@@ -19,12 +22,12 @@ public class Produto {
     private Integer id;
 
     @Column(name = "codigo_barras", unique = true, nullable = false, length = 150)
-    private Integer codigoBarras;
+    private String codigoBarras;
 
     @Column(name = "numeroNotaFiscal", unique = true, nullable = false, length = 150)
-    private Integer numeroNotaFiscal;
+    private String numeroNotaFiscal;
 
-    @Column(name = "categoria", unique = true, nullable = false, length = 150)
+    @Column(name = "categoria", nullable = false, length = 150)
     private String categoria;
 
     @Column(name = "nome", nullable = false, length = 150)
@@ -34,16 +37,20 @@ public class Produto {
     private Long quantidade;
 
     @Column(name = "preco", nullable = false, length = 50)
-    private double preco;
+    private Double preco;
 
     @Column(name = "dataValidade", nullable = false, length = 50)
-    private String dataValidade;
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private LocalDate dataValidade;
 
     @Column(name = "fornecedor", nullable = false, length = 150)
     private String fornecedor;
 
     @Column(name = "descricao", nullable = false, length = 500)
     private String descricao;
+
+    @Column(name = "unidadeMedida", nullable = false, length = 50)
+    private String unidadeMedida;
 
     @Column(name = "isActive", nullable = false)
     private Boolean isActive;
@@ -54,6 +61,7 @@ public class Produto {
     @PrePersist
     public void prePersist() {
         this.criadoEm = LocalDateTime.now();
+        this.isActive = true;
     }
 }
 
