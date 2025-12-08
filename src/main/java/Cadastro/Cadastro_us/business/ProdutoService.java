@@ -156,4 +156,5 @@ public class ProdutoService {
         produtoExistente.setUnidadeMedida(produtoAtualizado.getUnidadeMedida());
         return produtoRepository.save(produtoExistente);
     }
+
 }

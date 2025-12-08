@@ -26,7 +26,7 @@ class UsuarioControllerTest {
     void fluxoCrudCompleto() throws Exception {
 
         // CREATE
-        UsuarioDto dto = new UsuarioDto("crud@test.com", "Usuario Teste");
+        UsuarioDto dto = new UsuarioDto("crud@test.com", "Usuario Teste", true);
 
         String response = mockMvc.perform(post("/usuarios")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -45,7 +45,7 @@ class UsuarioControllerTest {
                 .andExpect(jsonPath("$.email").value("crud@test.com"));
 
         // UPDATE
-        UsuarioDto dtoAtualizado = new UsuarioDto("novo@email.com", "Novo Nome");
+        UsuarioDto dtoAtualizado = new UsuarioDto("novo@email.com", "Novo Nome", true);
 
         mockMvc.perform(put("/usuarios/" + id)
                         .contentType(MediaType.APPLICATION_JSON)
