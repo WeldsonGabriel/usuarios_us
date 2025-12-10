@@ -54,6 +54,17 @@ class UsuarioControllerTest {
                 .andExpect(jsonPath("$.email").value("novo@email.com"))
                 .andExpect(jsonPath("$.nome").value("Novo Nome"));
 
+
+        // DELETE LOGICO
+        mockMvc.perform(get("/usuarios/isActive/false"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.[?(@.id==" + id + ")]").exists());
+
+        // BUSCAR POR FALSE ISACTIVE
+        mockMvc.perform(get("/usuarios/isActive/false"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.[?(@.id==" + id + ")]").exists());
+
         // DELETE
         mockMvc.perform(delete("/usuarios/" + id))
                 .andExpect(status().isNoContent());

@@ -2,9 +2,7 @@ package Cadastro.Cadastro_us.dto;
 
 import lombok.*;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Getter
 @Setter
